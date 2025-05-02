@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClickHouse & CSV Data Ingestion Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>ClickHouse ↔ CSV Data Ingestion Tool</h1>
+    <p>Select the data source and provide the necessary details to transfer data between ClickHouse and CSV.</p>
+    <div>
+        <label><input type="radio" name="sourceChoice" value="ch" id="src-ch" checked> ClickHouse to CSV</label>
+        <label><input type="radio" name="sourceChoice" value="file" id="src-file"> CSV to ClickHouse</label>
+    </div>
+
+    <!-- Section for ClickHouse as source (export to CSV) -->
+    <div id="ch-section">
+        <h2>Source: ClickHouse Database</h2>
+        <div class="form-row">
+            <label for="ch-host">Host:</label>
+            <input type="text" id="ch-host" placeholder="e.g. localhost or your-cloud-host">
+        </div>
+        <div class="form-row">
+            <label for="ch-port">Port:</label>
+            <input type="text" id="ch-port" placeholder="9000 or 8123">
+        </div>
+        <div class="form-row">
+            <label for="ch-db">Database:</label>
+            <input type="text" id="ch-db" placeholder="default">
+        </div>
+        <div class="form-row">
+            <label for="ch-user">User:</label>
+            <input type="text" id="ch-user" placeholder="default">
+        </div>
+        <div class="form-row">
+            <label for="ch-jwt">JWT Token:</label>
+            <input type="text" id="ch-jwt" placeholder="Paste JWT token here">
+        </div>
+        <button id="btn-connect-ch">Connect & List Tables</button>
+
+        <div id="tables-list" class="selection-list">
+            <!-- Table checkboxes will be populated here -->
+        </div>
+        <div id="join-condition-row" class="form-row hidden">
+            <label for="join-condition">Join Condition:</label>
+            <input type="text" id="join-condition" placeholder="e.g. t1.id = t2.id">
+        </div>
+        <button id="btn-load-columns-ch" disabled>Load Columns</button>
+        <div id="columns-list-ch" class="selection-list">
+            <!-- Column checkboxes will be populated here -->
+        </div>
+
+        <h3>Target: CSV File</h3>
+        <div class="form-row">
+            <label for="out-filename">Output File Name:</label>
+            <input type="text" id="out-filename" value="output.csv">
+        </div>
+        <div class="form-row">
+            <label for="out-delimiter">Delimiter:</label>
+            <input type="text" id="out-delimiter" value="," maxlength="1">
+        </div>
+        <button id="btn-start-ch" disabled>Start Ingestion (CH → CSV)</button>
+    </div>
+
+    <!-- Section for Flat file as source (import to ClickHouse) -->
+    <div id="file-section" class="hidden">
+        <h2>Source: CSV File</h2>
+        <div class="form-row">
+            <label for="csv-file">CSV File:</label>
+            <input type="file" id="csv-file" accept=".csv">
+        </div>
+        <div class="form-row">
+            <label for="file-delimiter">Delimiter:</label>
+            <input type="text" id="file-delimiter" value="," maxlength="1">
+        </div>
+        <button id="btn-load-columns-file">Load Columns</button>
+        <div id="columns-list-file" class="selection-list">
+            <!-- CSV column checkboxes will be populated here -->
+        </div>
+
+        <h3>Target: ClickHouse Database</h3>
+        <div class="form-row">
+            <label for="ch-host-f">Host:</label>
+            <input type="text" id="ch-host-f" placeholder="e.g. localhost or your-cloud-host">
+        </div>
+        <div class="form-row">
+            <label for="ch-port-f">Port:</label>
+            <input type="text" id="ch-port-f" placeholder="9000 or 8123">
+        </div>
+        <div class="form-row">
+            <label for="ch-db-f">Database:</label>
+            <input type="text" id="ch-db-f" placeholder="default">
+        </div>
+        <div class="form-row">
+            <label for="ch-user-f">User:</label>
+            <input type="text" id="ch-user-f" placeholder="default">
+        </div>
+        <div class="form-row">
+            <label for="ch-jwt-f">JWT Token:</label>
+            <input type="text" id="ch-jwt-f" placeholder="Paste JWT token here">
+        </div>
+        <div class="form-row">
+            <label for="ch-table-f">New Table Name:</label>
+            <input type="text" id="ch-table-f" placeholder="table_name">
+        </div>
+        <button id="btn-start-file" disabled>Start Ingestion (CSV → CH)</button>
+    </div>
+
+    <hr>
+    <!-- Status and result display areas -->
+    <div id="status" class="status"></div>
+    <div id="result" class="result"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
