@@ -1,2 +1,0 @@
-Flask>=2.0
-clickhouse-connect>=0.8.0
