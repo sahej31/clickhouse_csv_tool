@@ -116,6 +116,22 @@ Progress bars and live row count are shown for both modes.
 
 ---
 
+## 🧪 Testing Notes
+
+Due to the official ClickHouse example datasets being very large (several GBs), they were not directly used in testing to avoid local CPU/memory overhead and timeout delays.
+
+Instead, smaller mock datasets (`orders.csv`, `customers.csv`) were used to demonstrate ingestion and joins.
+
+Test cases include:
+
+1. Single ClickHouse table → Flat File (selected columns).
+2. CSV upload → ClickHouse table creation and ingestion.
+3. ✅ Bonus: Joined ClickHouse tables → CSV export (verified).
+4. Error handling: connection/authentication failures tested.
+5. (Optional) Preview logic included for schema visibility.
+
+---
+
 ## 🔐 Security Notes
 
 - This is a local tool intended for internal or single-user deployments.
